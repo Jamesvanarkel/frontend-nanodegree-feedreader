@@ -8,22 +8,21 @@ $(function () {
     });
 
     it('url is not empty', function () {
-      allFeeds.forEach(function (url) {
+      allFeeds.forEach(function (feed) {
         //check if it is defines first
-        expect(url).toBeDefined();
-        console.log(url);
+        expect(feed.url).toBeDefined();
         //loop trough all items and check if the length of the property 'url' is not 0
-        expect(url.length).not.toBe(0);
+        expect(feed.url.length).not.toBe(0);
       });
     });
 
     it('name is not empty', function () {
-      for (var i = 0; i < allFeeds.length; i++) {
+      allFeeds.forEach(function (feed) {
         //check if it is defines first
-        expect(allFeeds[i].name).toBeDefined();
+        expect(feed.name).toBeDefined();
         //loop trough all items and check if the length of the property 'url' is not 0
-        expect(allFeeds[i].name.length).toBeGreaterThan(0);
-      }
+        expect(feed.name.length).not.toBe(0);
+      });
     });
 
   });
@@ -68,22 +67,24 @@ $(function () {
       newFeedInfo;
 
     beforeEach(function (done) {
+      //empty current feed
       $('.feed').empty();
-
+      //LoadFeed with index 0
       loadFeed(0, function () {
+        //set the output of this feed to variable oldFeedInfo
         oldFeedInfo = $('.feed').html();
-        done();
-      });
-
-      loadFeed(1, function () {
-        newFeedInfo = $('.feed').html();
-        done();
+        //LoadFeed with index 1 (other then before)
+        loadFeed(1, function () {
+          //Set this html to variable newFeedInfo
+          newFeedInfo = $('.feed').html();
+          done();//Pas the beforeEach function as done
+        });
       });
     });
 
     it('asynchronous loadFeed() is loaded', function () {
 
-      //Expect that the NewfeedInfo is not equal to the OldfeedInfo
+      //Expect that the NewfeedInfo(index0) is not equal to the OldfeedInfo(index1)
       expect(newFeedInfo).not.toBe(oldFeedInfo);
     });
   });
